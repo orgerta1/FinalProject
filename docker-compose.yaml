@@ -1,0 +1,27 @@
+version: '3.3'     
+services:
+  node:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: node-container
+    ports:
+      - '5000:5000'
+    environment:
+      - DATABASE_HOST="http://localhost:5432"
+      - DATABASE_PORT=5432
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - DATABASE_NAME=mypostgres
+    volumes:
+      - /custom/mount:/var/lib/postgresql/data
+  db:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    volumes:
+      - /custom/mount:/var/lib/postgresql/data
