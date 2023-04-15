@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apideployment
+  labels:
+    app: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: 129392916120.dkr.ecr.eu-north-1.amazonaws.com/group3-ecr-repository:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: DATABASE_HOST
+          value: group3-db.cjsnrrorjfz7.eu-north-1.rds.amazonaws.com
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: DATABASE_USER
+          value: myuser
+        - name: DATABASE_PASSWORD
+          value: mypassword
+        - name: DATABASE_NAME
+          value: postgres
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+  labels:
+    app: api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 5000
+  selector:
+    app: api
+    
