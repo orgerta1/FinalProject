@@ -7,6 +7,16 @@ terraform {
   }
 }
 
+terraform {
+  cloud {
+    organization = "orgerta"
+
+    workspaces {
+      name = "production_orgerta"
+    }
+  }
+}
+
 provider "aws" {
   region     = var.AWS_REGION
   access_key = var.aws_access_key
